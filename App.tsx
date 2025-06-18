@@ -9,11 +9,12 @@ import 'nativewind';
 
 export default function App() {
   return (
-    <AuthProvider>
+    <AuthProvider children={
       <View className="flex-1">
         <Navigation />
         <StatusBar style="auto" />
       </View>
+    }>
     </AuthProvider>
   );
 }
