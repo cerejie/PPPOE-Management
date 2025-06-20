@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -34,17 +35,44 @@ function TabNavigator() {
             iconName = focused ? 'account' : 'account-outline';
           }
 
+          if (focused) {
+            return (
+              <View style={{
+                backgroundColor: secondaryColor,
+                borderRadius: 8,
+                paddingVertical: 15,
+                width: 65,
+                height: 70,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Icon name={iconName} size={size-1} color="#FFFFFF" />
+              </View>
+            );
+          }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: secondaryColor,
+        tabBarActiveTintColor: '#FFFFFF',
         tabBarInactiveTintColor: 'gray',
+        tabBarLabel: ({ focused, color, children }) => {
+          return (
+            <Text style={{ 
+              color: focused ? '#FFFFFF' : color, 
+              fontSize: 12,
+              fontWeight: focused ? '500' : 'normal',
+              marginTop: focused ? 0 : undefined
+            }}>
+              {children}
+            </Text>
+          );
+        },
         tabBarStyle: {
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 10,
+          height: 90,
+          paddingBottom: 0,
+          paddingTop: 0,
           backgroundColor: '#FFFFFF',
           borderTopColor: '#f4f4f4',
-          borderTopWidth: 1,
+          borderTopWidth: 2,
         },
         headerStyle: {
           backgroundColor: '#FFFFFF',
