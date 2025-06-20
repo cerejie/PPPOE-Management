@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
   },
+
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
   },
+
   subtitle: {
     fontSize: 16,
     color: '#666',
