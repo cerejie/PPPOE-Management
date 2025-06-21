@@ -77,7 +77,7 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
       {isActive ? (
         // Active tab with background and label
         <Animated.View 
-          className={`flex-row justify-center items-center px-4 py-2 -mx-4 mb-1 rounded-2xl`}
+          className={`flex-row justify-center items-center px-4 py-3 -mx-4 rounded-2xl`}
           style={{ 
             backgroundColor: activeColor,
             transform: [{ scale: activeAnim.interpolate({
