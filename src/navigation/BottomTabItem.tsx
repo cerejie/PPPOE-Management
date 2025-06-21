@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, Pressable, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface BottomTabItemProps {
@@ -28,37 +28,88 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
   activeColor = '#3b82f6', // Default blue color
   inactiveColor = '#6b7280', // Default gray color
 }) => {
+
+  // Animation value for scale
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  
+  // Animation value for active tab transitions
+  const activeAnim = useRef(new Animated.Value(isActive ? 1 : 0)).current;
+
+  // Update animation when active state changes
+  useEffect(() => {
+    Animated.timing(activeAnim, {
+      toValue: isActive ? 1 : 0,
+      duration: 100,
+      useNativeDriver: true, // Using true for better performance
+    }).start();
+  }, [isActive]);
+  
+  // Press animations
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
+  };
+  
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 2,
+      tension: 60,
+      useNativeDriver: true,
+    }).start();
+  };
+
+
+  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
   return (
-    <Pressable 
+    <AnimatedPressable 
       className={`
         items-center 
-        justify-center 
-        ${isActive ? 'flex-grow-5' : 'flex-shrink-5'} 
-        py-3
-        px-1
-        mx-2
+        justify-flex-start
+        ${isActive ? 'flex-grow-5' : 'flex-shrink'} 
+        py-2
+        px-0
+        ml-2
+        mr-2
       `}
       onPress={onPress}
-      style={({ pressed }) => [
-        { 
-          opacity: pressed ? 0.8 : 1,
-        }
-      ]}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={{
+        transform: [{ scale: scaleAnim }]
+      }}
     >
       {isActive ? (
         // Active tab with background and label
-        <View 
+        <Animated.View 
           className={`flex-row justify-center items-center px-4 py-2 rounded-full`}
-          style={{ backgroundColor: activeColor }}
+          style={{ 
+            backgroundColor: activeColor,
+            transform: [{ scale: activeAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.8, 1]
+            }) }],
+            
+          }}
         >
-          <Icon name={iconName} size={25} color="#ffffff" />
-          <Text className="ml-2 text-sm font-medium text-white">{label}</Text>
-        </View>
+          <Icon name={iconName} size={27} color="#ffffff" />
+          <Animated.Text 
+            className="ml-2 text-sm font-medium text-white"
+            style={{
+              opacity: activeAnim
+            }}
+          >
+            {label}
+          </Animated.Text>
+        </Animated.View>
       ) : (
         // Inactive tab with icon only
-        <Icon name={iconName} size={26} color={inactiveColor} />
+        <Icon name={iconName} size={30} color={inactiveColor} />
       )}
-    </Pressable>
+    </AnimatedPressable>
   );
 };
 
