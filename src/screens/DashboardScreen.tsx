@@ -82,8 +82,13 @@ const DashboardScreen: React.FC = () => {
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header */}
       <Animated.View 
-        className="px-4 py-6 bg-custom-deep-burgundy"
+        className="px-4 py-6 bg-white"
         style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+          elevation: 3,
           opacity: headerAnimation,
           transform: [
             { 
@@ -95,8 +100,8 @@ const DashboardScreen: React.FC = () => {
           ]
         }}
       >
-        <Text className="text-2xl font-bold text-custom-white">Dashboard</Text>
-        <Text className="text-sm text-custom-light-pink">
+        <Text className="text-2xl font-bold text-custom-deep-burgundy">Dashboard</Text>
+        <Text className="text-sm text-gray-500">
           PPPoE Management System
         </Text>
       </Animated.View>

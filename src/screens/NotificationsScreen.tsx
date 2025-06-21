@@ -173,9 +173,15 @@ export default function NotificationsScreen() {
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       
       {/* Header */}
-      <View className="flex flex-row justify-between items-center px-4 pt-4 pb-2">
+      <View className="flex flex-row justify-between items-center px-4 py-6 bg-white border-b border-gray-100 border-solid shadow-lg" style={{
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3
+      }}>
         <View>
-          <Text className="text-2xl font-bold text-gray-800">Notifications</Text>
+          <Text className="text-2xl font-bold text-custom-deep-burgundy">Notifications</Text>
           <View className="flex flex-row items-center mt-1">
             <Text className="text-gray-500">Stay informed about important updates</Text>
           </View>

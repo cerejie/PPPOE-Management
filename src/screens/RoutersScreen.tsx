@@ -106,18 +106,24 @@ export default function RoutersScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="px-4 pt-4 pb-2">
-        <Text className="text-2xl font-bold text-gray-800">Routers</Text>
-        <View className="flex-row justify-between items-center">
+      <View className="px-4 py-6 bg-white" style={{
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3
+      }}>
+        <Text className="text-2xl font-bold text-custom-deep-burgundy">Routers</Text>
+        <View className="flex flex-row justify-between items-center">
           <Text className="text-gray-500">Manage your network equipment</Text>
-          <View className="flex-row items-center">
-            <Text className="text-xs text-gray-400 mr-1">Last sync: {getFormattedLastSyncTime()}</Text>
+          <View className="flex flex-row items-center"> 
+            <Text className="mr-1 text-xs text-black">Last sync: {getFormattedLastSyncTime()}</Text>
           </View>
         </View>
       </View>
       
       {/* Statistics Row */}
-      <View className="flex-row justify-between px-4 py-3 bg-gray-50 border-y border-gray-200">
+      <View className="flex flex-row justify-between px-4 py-3 mt-4 bg-gray-50 border-gray-200 border-[1px] border-solid border-y">
         <View className="items-center">
           <Text className="text-sm text-gray-500">Routers</Text>
           <Text className="text-lg font-medium text-gray-800">{routers.length}</Text>
@@ -151,15 +157,15 @@ export default function RoutersScreen() {
       >
         {/* Show loading spinner when syncing */}
         {(isLoading && !refreshing) && (
-          <View className="items-center justify-center py-4">
+          <View className="flex justify-center items-center py-4">
             <ActivityIndicator color="#99627A" size="large" />
-            <Text className="text-gray-500 mt-2">Syncing router data...</Text>
+            <Text className="mt-2 text-gray-500">Syncing router data...</Text>
           </View>
         )}
         
         {/* Show error message if any */}
         {error && (
-          <View className="bg-red-50 p-3 rounded-lg mb-4 border border-red-200">
+          <View className="p-3 mb-4 bg-red-50 rounded-lg border border-red-200">
             <Text className="text-custom-deep-burgundy">
               <Ionicons name="alert-circle" size={16} /> {error}
             </Text>
@@ -185,7 +191,7 @@ export default function RoutersScreen() {
             </CollapsibleGroup>
           ))
         ) : (
-          <View className="items-center justify-center py-12">
+          <View className="flex justify-center items-center py-12">
             <Text className="text-gray-500">No routers found</Text>
           </View>
         )}
@@ -194,12 +200,12 @@ export default function RoutersScreen() {
       {/* Sync button */}
       <View className="p-4">
         <TouchableOpacity 
-          className="bg-custom-muted-purple py-3 rounded-lg flex-row justify-center items-center"
+          className="flex flex-row justify-center items-center py-3 rounded-lg bg-custom-muted-purple"
           onPress={() => syncRouters()}
           disabled={isLoading}
         >
           <Ionicons name="sync" size={18} color="white" />
-          <Text className="text-white font-medium ml-2">
+          <Text className="ml-2 font-medium text-white">
             {isLoading ? 'Syncing...' : 'Refresh Routers'}
           </Text>
         </TouchableOpacity>

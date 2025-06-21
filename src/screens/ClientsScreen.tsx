@@ -75,7 +75,7 @@ export default function ClientsScreen() {
 
   // Render header with search and filters
   const renderHeader = () => (
-    <View className="px-4 pt-2 pb-4">
+    <View className="px-4 pt-2 pb-4 mt-4">
       {/* Search bar */}
       <SearchBar
         value={filters.searchTerm}
@@ -85,17 +85,17 @@ export default function ClientsScreen() {
       />
       
       {/* Filter section title */}
-      <View className="flex-row justify-between items-center mt-4 mb-2">
-        <Text className="text-gray-700 font-medium">Filters</Text>
+      <View className="flex flex-row justify-between items-center mt-4 mb-2">
+        <Text className="font-medium text-gray-700">Filters</Text>
         {(filters.routerFilter || filters.statusFilter !== 'all' || filters.expirationFilter !== 'all') && (
           <TouchableOpacity onPress={resetFilters}>
-            <Text className="text-custom-muted-purple font-medium">Reset</Text>
+            <Text className="font-medium text-custom-muted-purple">Reset</Text>
           </TouchableOpacity>
         )}
       </View>
       
       {/* Router filters */}
-      <Text className="text-gray-500 text-xs mb-1">Router</Text>
+      <Text className="mb-1 text-xs text-gray-500">Router</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
         <FilterChip
           label="All Routers"
@@ -113,7 +113,7 @@ export default function ClientsScreen() {
       </ScrollView>
       
       {/* Status filters */}
-      <Text className="text-gray-500 text-xs mb-1">Status</Text>
+      <Text className="mb-1 text-xs text-gray-500">Status</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
         <FilterChip
           label="All Status"
@@ -135,7 +135,7 @@ export default function ClientsScreen() {
       </ScrollView>
       
       {/* Expiration filters */}
-      <Text className="text-gray-500 text-xs mb-1">Expiration</Text>
+      <Text className="mb-1 text-xs text-gray-500">Expiration</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
         <FilterChip
           label="All"
@@ -160,17 +160,17 @@ export default function ClientsScreen() {
 
   // Render empty state when no clients are found
   const renderEmptyState = () => (
-    <View className="flex-1 justify-center items-center p-4">
+    <View className="flex flex-1 justify-center items-center p-4">
       <Ionicons name="people-outline" size={48} color="#99627A" />
-      <Text className="text-base font-medium text-gray-800 mt-2">No clients found</Text>
-      <Text className="text-sm text-gray-500 text-center mt-1">
+      <Text className="mt-2 text-base font-medium text-gray-800">No clients found</Text>
+      <Text className="mt-1 text-sm text-center text-gray-500">
         Try adjusting your filters or search term
       </Text>
       <TouchableOpacity 
-        className="mt-4 py-2 px-4 rounded-full bg-custom-muted-purple"
+        className="px-4 py-2 mt-4 rounded-full bg-custom-muted-purple"
         onPress={resetFilters}
       >
-        <Text className="text-white font-medium">Reset Filters</Text>
+        <Text className="font-medium text-white">Reset Filters</Text>
       </TouchableOpacity>
     </View>
   );
@@ -180,13 +180,19 @@ export default function ClientsScreen() {
       <SafeAreaView className="flex-1 bg-white">
         <View className="flex-1">
           {/* Screen Header */}
-          <View className="px-4 pt-4 pb-2">
+          <View className="px-4 py-6 bg-white" style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 3,
+            elevation: 3
+          }}>
             <Text className="text-2xl font-bold text-custom-deep-burgundy">Clients</Text>
             <Text className="text-gray-500">Manage your PPPoE clients</Text>
           </View>
           
           {isLoading ? (
-            <View className="flex-1 justify-center items-center">
+            <View className="flex flex-1 justify-center items-center">
               <ActivityIndicator size="large" color="#99627A" />
               <Text className="mt-2 text-gray-600">Loading clients...</Text>
             </View>
