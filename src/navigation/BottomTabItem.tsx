@@ -66,15 +66,7 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
 
   return (
     <AnimatedPressable 
-      className={`
-        items-center 
-        justify-flex-start
-        ${isActive ? 'flex-grow-5' : 'flex-shrink'} 
-        py-2
-        px-0
-        ml-2
-        mr-2
-      `}
+      className={`justify-between items-center pt-2 mx-3 -mb-3`}
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
@@ -85,7 +77,7 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
       {isActive ? (
         // Active tab with background and label
         <Animated.View 
-          className={`flex-row justify-center items-center px-4 py-2 rounded-full`}
+          className={`flex-row justify-center items-center px-4 py-2 -mx-4 mb-1 rounded-2xl`}
           style={{ 
             backgroundColor: activeColor,
             transform: [{ scale: activeAnim.interpolate({
@@ -107,7 +99,7 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
         </Animated.View>
       ) : (
         // Inactive tab with icon only
-        <Icon name={iconName} size={30} color={inactiveColor} />
+        <Icon name={iconName} size={32} color={inactiveColor} />
       )}
     </AnimatedPressable>
   );
