@@ -51,7 +51,7 @@ const FAB: React.FC<FABProps> = ({
 
   return (
     <StyledAnimatedTouchable
-      className={`absolute ${positionClass} bg-custom-deep-burgundy w-14 h-14 rounded-full shadow-lg items-center justify-center z-10`}
+      className={`absolute z-10 justify-center items-center w-14 h-14 rounded-full shadow-lg ${positionClass} bg-custom-deep-burgundy`}
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}

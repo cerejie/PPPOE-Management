@@ -33,33 +33,30 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
       className={`
         items-center 
         justify-center 
-        ${isActive ? 'flex-grow' : 'flex-shrink'} 
-        py-2
+        ${isActive ? 'flex-grow-5' : 'flex-shrink-5'} 
+        py-3
+        px-1
+        mx-2
       `}
       onPress={onPress}
       style={({ pressed }) => [
-        { opacity: pressed ? 0.8 : 1 }
+        { 
+          opacity: pressed ? 0.8 : 1,
+        }
       ]}
     >
       {isActive ? (
         // Active tab with background and label
         <View 
-          className={`
-            flex-row 
-            items-center 
-            justify-center 
-            rounded-full 
-            px-4 
-            py-2
-          `}
+          className={`flex-row justify-center items-center px-4 py-2 rounded-full`}
           style={{ backgroundColor: activeColor }}
         >
-          <Icon name={iconName} size={22} color="#ffffff" />
-          <Text className="text-white font-medium text-sm ml-2">{label}</Text>
+          <Icon name={iconName} size={25} color="#ffffff" />
+          <Text className="ml-2 text-sm font-medium text-white">{label}</Text>
         </View>
       ) : (
         // Inactive tab with icon only
-        <Icon name={iconName} size={24} color={inactiveColor} />
+        <Icon name={iconName} size={26} color={inactiveColor} />
       )}
     </Pressable>
   );
