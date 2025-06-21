@@ -99,7 +99,7 @@ const BottomTabItem: React.FC<BottomTabItemProps> = ({
         </Animated.View>
       ) : (
         // Inactive tab with icon only
-        <Icon name={iconName} size={32} color={inactiveColor} />
+        <Icon name={iconName} size={30} color={inactiveColor} />
       )}
     </AnimatedPressable>
   );
