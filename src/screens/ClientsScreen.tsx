@@ -8,7 +8,7 @@ import { mockRouters } from '../constants/mockClients';
 
 // Components
 import SearchBar from '../components/ui/SearchBar';
-import FilterChip from '../components/ui/FilterChip';
+import DropdownSelect from '../components/ui/DropdownSelect';
 import ClientCard from '../components/ui/ClientCard';
 import EditClientModal from '../components/modals/EditClientModal';
 
@@ -75,7 +75,7 @@ export default function ClientsScreen() {
 
   // Render header with search and filters
   const renderHeader = () => (
-    <View className="px-4 pt-2 pb-4 mt-4">
+    <View className="px-4 pt-2 pb-4 mt-2">
       {/* Search bar */}
       <SearchBar
         value={filters.searchTerm}
@@ -85,7 +85,7 @@ export default function ClientsScreen() {
       />
       
       {/* Filter section title */}
-      <View className="flex flex-row justify-between items-center mt-4 mb-2">
+      <View className="flex flex-row justify-between items-center mt-4 mb-4">
         <Text className="font-medium text-gray-700">Filters</Text>
         {(filters.routerFilter || filters.statusFilter !== 'all' || filters.expirationFilter !== 'all') && (
           <TouchableOpacity onPress={resetFilters}>
@@ -94,67 +94,59 @@ export default function ClientsScreen() {
         )}
       </View>
       
-      {/* Router filters */}
-      <Text className="mb-1 text-xs text-gray-500">Router</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
-        <FilterChip
-          label="All Routers"
-          isSelected={filters.routerFilter === null}
-          onPress={() => setRouterFilter(null)}
-        />
-        {mockRouters.map(router => (
-          <FilterChip
-            key={router.id}
-            label={router.name}
-            isSelected={filters.routerFilter === router.id}
-            onPress={() => setRouterFilter(router.id)}
+      {/* Filter Dropdowns */}
+      <View className="mb-4">
+        {/* Category labels */}
+        <View className="flex-row justify-between mb-2">
+          <Text className="text-xs font-medium text-gray-500 ml-1 w-[31%]">Router</Text>
+          <Text className="text-xs font-medium text-gray-500 ml-1 w-[31%]">Status</Text>
+          <Text className="text-xs font-medium text-gray-500 ml-1 w-[31%]">Expiration</Text>
+        </View>
+        
+        {/* Dropdowns row */}
+        <View className="flex-row justify-between">
+          {/* Router Dropdown */}
+          <DropdownSelect
+            label="Router"
+            width="w-[31%]"
+            selectedValue={filters.routerFilter}
+            onSelect={(value) => setRouterFilter(value)}
+            options={[
+              { label: 'All Routers', value: null },
+              ...mockRouters.map(router => ({
+                label: router.name,
+                value: router.id
+              }))
+            ]}
           />
-        ))}
-      </ScrollView>
-      
-      {/* Status filters */}
-      <Text className="mb-1 text-xs text-gray-500">Status</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
-        <FilterChip
-          label="All Status"
-          isSelected={filters.statusFilter === 'all'}
-          onPress={() => setStatusFilter('all')}
-        />
-        <FilterChip
-          label="Connected"
-          isSelected={filters.statusFilter === 'connected'}
-          onPress={() => setStatusFilter('connected')}
-          customActiveColor="bg-custom-muted-purple"
-        />
-        <FilterChip
-          label="Disconnected"
-          isSelected={filters.statusFilter === 'disconnected'}
-          onPress={() => setStatusFilter('disconnected')}
-          customActiveColor="bg-custom-dusty-rose"
-        />
-      </ScrollView>
-      
-      {/* Expiration filters */}
-      <Text className="mb-1 text-xs text-gray-500">Expiration</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-2">
-        <FilterChip
-          label="All"
-          isSelected={filters.expirationFilter === 'all'}
-          onPress={() => setExpirationFilter('all')}
-        />
-        <FilterChip
-          label="Expiring Soon"
-          isSelected={filters.expirationFilter === 'expiring-soon'}
-          onPress={() => setExpirationFilter('expiring-soon')}
-          customActiveColor="bg-yellow-500"
-        />
-        <FilterChip
-          label="Expired"
-          isSelected={filters.expirationFilter === 'expired'}
-          onPress={() => setExpirationFilter('expired')}
-          customActiveColor="bg-red-500"
-        />
-      </ScrollView>
+          
+          {/* Status Dropdown */}
+          <DropdownSelect
+            label="Status"
+            width="w-[31%]"
+            selectedValue={filters.statusFilter}
+            onSelect={(value) => setStatusFilter(value as 'all' | 'connected' | 'disconnected')}
+            options={[
+              { label: 'All Status', value: 'all' },
+              { label: 'Connected', value: 'connected', color: '#99627A' },
+              { label: 'Disconnected', value: 'disconnected', color: '#C88EA7' }
+            ]}
+          />
+          
+          {/* Expiration Dropdown */}
+          <DropdownSelect
+            label="Expiration"
+            width="w-[31%]"
+            selectedValue={filters.expirationFilter}
+            onSelect={(value) => setExpirationFilter(value as 'all' | 'expiring-soon' | 'expired')}
+            options={[
+              { label: 'All', value: 'all' },
+              { label: 'Expiring Soon', value: 'expiring-soon', color: '#F59E0B' },
+              { label: 'Expired', value: 'expired', color: '#EF4444' }
+            ]}
+          />
+        </View>
+      </View>
     </View>
   );
 

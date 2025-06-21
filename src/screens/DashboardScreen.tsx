@@ -5,10 +5,12 @@ import {
   ScrollView, 
   RefreshControl, 
   SafeAreaView,
-  Animated
+  Animated,
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import { styled } from 'nativewind';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 // Components
 import SummaryCard from '../components/ui/SummaryCard';
@@ -63,13 +65,15 @@ const DashboardScreen: React.FC = () => {
   
   // Icon components
   const icons = {
-    routers: <MaterialIcons name="router" size={24} color="#643843" />,
-    clients: <MaterialIcons name="people" size={24} color="#643843" />,
-    connected: <MaterialIcons name="wifi" size={24} color="#643843" />,
-    expiring: <MaterialIcons name="timer" size={24} color="#643843" />,
-    addClient: <MaterialIcons name="person-add" size={20} color="#FFFFFF" />,
-    addRouter: <MaterialIcons name="add-circle" size={20} color="#FFFFFF" />,
-    fab: <MaterialIcons name="add" size={28} color="#FFFFFF" />
+    routers: <Ionicons name="hardware-chip-outline" size={24} color="#99627A" />,
+    clients: <Ionicons name="people-outline" size={24} color="#C88EA7" />,
+    connected: <Ionicons name="checkmark-circle-outline" size={24} color="#643843" />,
+    expiring: <Ionicons name="time-outline" size={24} color="#EF4444" />,
+    addClient: <Ionicons name="person-add-outline" size={22} color="#FFFFFF" />,
+    addRouter: <Ionicons name="add-circle-outline" size={22} color="#FFFFFF" />,
+    fab: <Ionicons name="add" size={28} color="#FFFFFF" />,
+    refresh: <Ionicons name="refresh-outline" size={20} color="#99627A" />,
+    analytics: <Ionicons name="stats-chart-outline" size={20} color="#99627A" />
   };
 
   // Handler for FAB press - Could show a modal with options
@@ -100,10 +104,20 @@ const DashboardScreen: React.FC = () => {
           ]
         }}
       >
-        <Text className="text-2xl font-bold text-custom-deep-burgundy">Dashboard</Text>
-        <Text className="text-sm text-gray-500">
-          PPPoE Management System
-        </Text>
+        <View className="flex-row justify-between items-center">
+          <View>
+            <Text className="text-2xl font-bold text-custom-deep-burgundy">Dashboard</Text>
+            <Text className="text-sm text-gray-500">
+              PPPoE Management System
+            </Text>
+          </View>
+          <TouchableOpacity 
+            onPress={onRefresh}
+            className="p-2 rounded-full bg-gray-100"
+          >
+            {icons.refresh}
+          </TouchableOpacity>
+        </View>
       </Animated.View>
       
       <ScrollView 
@@ -120,48 +134,100 @@ const DashboardScreen: React.FC = () => {
       >
         {/* Summary Cards Section */}
         <View className="mb-6">
-          <Text className="mb-3 text-lg font-bold text-custom-muted-purple">
-            Summary
-          </Text>
+          <View className="flex-row justify-between items-center mb-3">
+            <Text className="text-lg font-bold text-custom-muted-purple">
+              Summary
+            </Text>
+            <Text className="text-xs text-gray-500">
+              Last updated: {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} 
+            </Text>
+          </View>
           
-          <View className="p-2">
+          {/* 2x2 Summary Cards Grid */}
+          <View>
             {/* First row */}
-            <View className="flex flex-row mb-4">
-              <View className="flex-1 mr-2">
-                <SummaryCard
-                  title="Total Routers"
-                  value={summary.totalRouters}
-                  icon={icons.routers}
-                />
-              </View>
-              <View className="flex-1 ml-2">
-                <SummaryCard
-                  title="Total Clients"
-                  value={summary.totalClients}
-                  icon={icons.clients}
-                />
-              </View>
+            <View className="flex-row justify-between mb-3">
+              {/* Routers Card */}
+              <TouchableOpacity 
+                activeOpacity={0.8}
+                className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-muted-purple" 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 3,
+                  elevation: 4
+                }}
+              >
+                <View className="flex-row items-center mb-2">
+                  {icons.routers}
+                  <Text className="ml-2 font-medium text-gray-700">Routers</Text>
+                </View>
+                <Text className="text-2xl font-bold text-gray-800">{summary.totalRouters}</Text>
+              </TouchableOpacity>
+              
+              {/* Clients Card */}
+              <TouchableOpacity 
+                activeOpacity={0.8}
+                className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-dusty-rose" 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 3,
+                  elevation: 4
+                }}
+              >
+                <View className="flex-row items-center mb-2">
+                  {icons.clients}
+                  <Text className="ml-2 font-medium text-gray-700">Clients</Text>
+                </View>
+                <Text className="text-2xl font-bold text-gray-800">{summary.totalClients}</Text>
+              </TouchableOpacity>
             </View>
             
             {/* Second row */}
-            <View className="flex flex-row">
-              <View className="flex-1 mr-2">
-                <SummaryCard
-                  title="Connected Clients"
-                  value={summary.connectedClients}
-                  icon={icons.connected}
-                />
-              </View>
-              <View className="flex-1 ml-2">
-                <SummaryCard
-                  title="Expiring Soon"
-                  value={summary.expiringSoon}
-                  icon={icons.expiring}
-                  bgColor="bg-custom-light-pink"
-                />
-              </View>
+            <View className="flex-row justify-between">
+              {/* Connected Card */}
+              <TouchableOpacity 
+                activeOpacity={0.8}
+                className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-muted-purple" 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 3,
+                  elevation: 4
+                }}
+              >
+                <View className="flex-row items-center mb-2">
+                  {icons.connected}
+                  <Text className="ml-2 font-medium text-gray-700">Connected</Text>
+                </View>
+                <Text className="text-2xl font-bold text-custom-muted-purple">{summary.connectedClients}</Text>
+              </TouchableOpacity>
+              
+              {/* Expiring Card */}
+              <TouchableOpacity 
+                activeOpacity={0.8}
+                className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-deep-burgundy" 
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 3,
+                  elevation: 4
+                }}
+              >
+                <View className="flex-row items-center mb-2">
+                  {icons.expiring}
+                  <Text className="ml-2 font-medium text-gray-700">Expiring Soon</Text>
+                </View>
+                <Text className={`text-2xl font-bold ${summary.expiringSoon > 0 ? 'text-custom-deep-burgundy' : 'text-gray-800'}`}>
+                  {summary.expiringSoon}
+                </Text>
+              </TouchableOpacity>
             </View>
-
           </View>
         </View>
         
@@ -171,34 +237,71 @@ const DashboardScreen: React.FC = () => {
             Quick Actions
           </Text>
           
-          <View className="flex flex-row space-x-3">
-            <View className="flex-1">
-              <ActionButton
-                label="Add New Client"
-                onPress={addClient}
-                icon={icons.addClient}
-              />
-            </View>
+          <View className="flex-row justify-between">
+            <TouchableOpacity 
+              onPress={addClient}
+              className="w-[48%] py-4 px-4 rounded-xl bg-custom-deep-burgundy flex-row items-center justify-center" 
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 3,
+                elevation: 4
+              }}
+            >
+              {icons.addClient}
+              <Text className="ml-2 font-medium text-white">New Client</Text>
+            </TouchableOpacity>
             
-            <View className="flex-1">
-              <ActionButton
-                label="Add New Router"
-                onPress={addRouter}
-                icon={icons.addRouter}
-                variant="secondary"
-              />
-            </View>
+            <TouchableOpacity 
+              onPress={addRouter}
+              className="w-[48%] py-4 px-4 rounded-xl bg-custom-muted-purple flex-row items-center justify-center" 
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 3,
+                elevation: 4
+              }}
+            >
+              {icons.addRouter}
+              <Text className="ml-2 font-medium text-white">New Router</Text>
+            </TouchableOpacity>
           </View>
         </View>
         
         {/* Charts Section */}
         <View>
-          <Text className="mb-3 text-lg font-medium text-custom-muted-purple">
-            Analytics
-          </Text>
+          <View className="flex-row items-center mb-3">
+            <View className="flex-row items-center">
+              {icons.analytics}
+              <Text className="ml-2 text-lg font-medium text-custom-muted-purple">
+                Analytics
+              </Text>
+            </View>
+          </View>
           
-          <ClientStatusPieChart data={clientStatus} />
-          <PaymentStatusBarChart data={paymentStatus} />
+          <View className="bg-white rounded-xl p-4 mb-4" style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3
+          }}>
+            <Text className="text-base font-medium text-gray-800 mb-2">Client Status</Text>
+            <ClientStatusPieChart data={clientStatus} />
+          </View>
+          
+          <View className="bg-white rounded-xl p-4 mb-4" style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3
+          }}>
+            <Text className="text-base font-medium text-gray-800 mb-2">Payment Status</Text>
+            <PaymentStatusBarChart data={paymentStatus} />
+          </View>
         </View>
       </ScrollView>
       

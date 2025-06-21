@@ -122,28 +122,90 @@ export default function RoutersScreen() {
         </View>
       </View>
       
-      {/* Statistics Row */}
-      <View className="flex flex-row justify-between px-4 py-3 mt-4 bg-gray-50 border-gray-200 border-[1px] border-solid border-y">
-        <View className="items-center">
-          <Text className="text-sm text-gray-500">Routers</Text>
-          <Text className="text-lg font-medium text-gray-800">{routers.length}</Text>
+      {/* Statistics Cards - 2x2 Grid */}
+      <View className="px-4 mt-4">
+        {/* First Row */}
+        <View className="flex flex-row justify-between mb-3">
+          {/* Routers Card */}
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-muted-purple" 
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.15,
+              shadowRadius: 3,
+              elevation: 4
+            }}
+          >
+            <View className="flex flex-row items-center mb-2">
+              <Ionicons name="hardware-chip-outline" size={20} color="#99627A" />
+              <Text className="ml-2 font-medium text-gray-700">Routers</Text>
+            </View>
+            <Text className="text-2xl font-bold text-gray-800">{routers.length}</Text>
+          </TouchableOpacity>
+          
+          {/* Clients Card */}
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-dusty-rose" 
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.15,
+              shadowRadius: 3,
+              elevation: 4
+            }}
+          >
+            <View className="flex flex-row items-center mb-2">
+              <Ionicons name="people-outline" size={20} color="#C88EA7" />
+              <Text className="ml-2 font-medium text-gray-700">Clients</Text>
+            </View>
+            <Text className="text-2xl font-bold text-gray-800">{stats.totalClients}</Text>
+          </TouchableOpacity>
         </View>
-        
-        <View className="items-center">
-          <Text className="text-sm text-gray-500">Clients</Text>
-          <Text className="text-lg font-medium text-gray-800">{stats.totalClients}</Text>
-        </View>
-        
-        <View className="items-center">
-          <Text className="text-sm text-gray-500">Connected</Text>
-          <Text className="text-lg font-medium text-custom-muted-purple">{stats.connectedClients}</Text>
-        </View>
-        
-        <View className="items-center">
-          <Text className="text-sm text-gray-500">With Issues</Text>
-          <Text className={`text-lg font-medium ${stats.routersWithIssues > 0 ? 'text-custom-deep-burgundy' : 'text-gray-800'}`}>
-            {stats.routersWithIssues}
-          </Text>
+          
+        {/* Second Row */}
+        <View className="flex flex-row justify-between">
+          {/* Connected Card */}
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-muted-purple border-solid" 
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.15,
+              shadowRadius: 3,
+              elevation: 4
+            }}
+          >
+            <View className="flex flex-row items-center mb-2">
+              <Ionicons name="checkmark-circle-outline" size={20} color="#643843" />
+              <Text className="ml-2 font-medium text-gray-700">Connected</Text>
+            </View>
+            <Text className="text-2xl font-bold text-custom-muted-purple">{stats.connectedClients}</Text>
+          </TouchableOpacity>
+          
+          {/* Issues Card */}
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            className="w-[48%] p-4 rounded-xl bg-white border-l-4 border-custom-deep-burgundy" 
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.15,
+              shadowRadius: 3,
+              elevation: 4
+            }}
+          >
+            <View className="flex flex-row items-center mb-2">
+              <Ionicons name="warning-outline" size={20} color="#643843" />
+              <Text className="ml-2 font-medium text-gray-700">Issues</Text>
+            </View>
+            <Text className={`text-2xl font-bold ${stats.routersWithIssues > 0 ? 'text-custom-deep-burgundy' : 'text-gray-800'}`}>
+              {stats.routersWithIssues}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -179,7 +241,7 @@ export default function RoutersScreen() {
               key={location}
               title={location}
               count={locationRouters.length}
-              initiallyExpanded={expandedGroups[location] ?? true}
+              initiallyExpanded={expandedGroups[location] ?? false}
             >
               {locationRouters.map(router => (
                 <RouterCard

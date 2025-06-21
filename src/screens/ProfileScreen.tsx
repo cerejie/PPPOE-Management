@@ -182,7 +182,7 @@ export default function ProfileScreen() {
           </View>
           
           <Text className="mt-3 text-xl font-semibold text-gray-800">
-            {user?.name || 'User Name'}
+            {user?.name || 'Ejieeee'}
           </Text>
           <Text className="text-gray-500">
             {user?.email || 'user@example.com'}
